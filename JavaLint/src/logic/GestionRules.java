@@ -1,6 +1,7 @@
-package rules;
+package logic;
 
 import structure.CapitalizationStyle;
+import structure.RuleEnum;
 
 public interface GestionRules{
 
@@ -13,7 +14,7 @@ public interface GestionRules{
 	public boolean stringInstantiation();
 	
 	// Check constant format (DEFAULT : UPPERCASE)
-	public boolean constantUppercase(CapitalizationStyle capitalizationStyle);
+	public boolean constantUppercase(RuleEnum camelCase);
 	
 	// Check class name (DEFAULT : PASCALCASE)
 	public boolean classNameFormat(CapitalizationStyle capitalizationStyle);
