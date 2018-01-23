@@ -4,7 +4,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import logic.GestionRules;
+import logic.GestionRulesImpl;
+
 public class Rules {
+	GestionRulesImpl gestionRulesImpl = new GestionRulesImpl();
+	
 	public static final int LINE_SIZE_VALUE = 1;
 	public static final int STRING_INSTANTIATION_VALUE = 2;
 	public static final int CONSTANT_UPPERCASE_VALUE = 3;
@@ -24,7 +29,7 @@ public class Rules {
 	public static final RuleEnum FINAL_DECLARATION_MISSING = new RuleEnum("Final declaration", FINAL_DECLARATION_MISSING_VALUE);
 	public static final RuleEnum NESTED_SPACES = new RuleEnum("Nested spaces", NESTED_SPACES_VALUE);
 	
-	public static List<String> returnRuleEnumVariables() {
+	public static List<String> getRuleEnumVariables() {
 		Field[] fields = Rules.class.getFields();
 		List<String> ruleEnumList = new ArrayList<String>();
 
