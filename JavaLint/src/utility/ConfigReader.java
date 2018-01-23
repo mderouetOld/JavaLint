@@ -7,31 +7,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import structure.RuleEnum;
+import structure.Rules;
+
 public class ConfigReader {
 
-	private final String propertyFileName = "config.properties";
-	private Properties prop = new Properties();
-	private InputStream input = null;
+	private final static String propertyFileName = "config.properties";
+	private static Properties prop = new Properties();
+	private static InputStream input = null;
+	private final static String filePropertyPath = System.getProperty("user.dir") + "\\src\\" + propertyFileName;
+	private final static String defaultPath = "PATH";
 
-	public Map loadProperties() {
+	public static Map renderAuthorization() {
 
 		try {
-			Map<String, Boolean> propertyMap = new HashMap<String, Boolean>();
-			String filePropertyPath = System.getProperty("user.dir")+ "\\src\\" + propertyFileName;
+			Map<RuleEnum, Boolean> propertyMap = new HashMap<RuleEnum, Boolean>();
 			input = new FileInputStream(filePropertyPath);
-			
+
 			// load our property file
 			prop.load(input);
 
 			// get values and return map
-			propertyMap.put("LINE_SIZE", readValueProp("LINE_SIZE"));
-			propertyMap.put("STRING_INSTANTIATION",readValueProp("STRING_INSTANTIATION"));
-			propertyMap.put("CONSTANT_UPPERCASE",readValueProp("CONSTANT_UPPERCASE"));
-			propertyMap.put("CLASS_NAME_FORMAT",readValueProp("CLASS_NAME_FORMAT"));
-			propertyMap.put("PARAMS_FUNCTION",readValueProp("PARAMS_FUNCTION"));
-			propertyMap.put("CHECK_NULL_INPUT",readValueProp("CHECK_NULL_INPUT"));
-			propertyMap.put("FINAL_DECLARATION_MISSING",readValueProp("FINAL_DECLARATION_MISSING"));
-			propertyMap.put("NESTED_SPACES",readValueProp("NESTED_SPACES"));
+			propertyMap.put(Rules.LINE_SIZE, readValueProp("LINE_SIZE"));
+			propertyMap.put(Rules.STRING_INSTANTIATION, readValueProp("STRING_INSTANTIATION"));
+			propertyMap.put(Rules.CONSTANT_UPPERCASE, readValueProp("CONSTANT_UPPERCASE"));
+			propertyMap.put(Rules.CLASS_NAME_FORMAT, readValueProp("CLASS_NAME_FORMAT"));
+			propertyMap.put(Rules.PARAMS_FUNCTION, readValueProp("PARAMS_FUNCTION"));
+			propertyMap.put(Rules.CHECK_NULL_INPUT, readValueProp("CHECK_NULL_INPUT"));
+			propertyMap.put(Rules.FINAL_DECLARATION_MISSING, readValueProp("FINAL_DECLARATION_MISSING"));
+			propertyMap.put(Rules.NESTED_SPACES, readValueProp("NESTED_SPACES"));
 
 			return propertyMap;
 		} catch (IOException ex) {
@@ -47,9 +51,19 @@ public class ConfigReader {
 		}
 		return null;
 	}
-	
-	private Boolean readValueProp(String propertyName) {
+
+	public static String getProjectPath() {
+		try {
+			input = new FileInputStream(filePropertyPath);
+			prop.load(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prop.getProperty(defaultPath);
+	}
+
+	private static Boolean readValueProp(String propertyName) {
 		return (prop.getProperty(propertyName).equals("true") ? true : false);
 	}
-	
+
 }
