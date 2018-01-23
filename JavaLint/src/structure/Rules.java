@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import logic.GestionRules;
 import logic.GestionRulesImpl;
 
 public class Rules {
