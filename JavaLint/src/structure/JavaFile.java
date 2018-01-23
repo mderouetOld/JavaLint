@@ -4,24 +4,24 @@ import java.io.File;
 
 public class JavaFile extends File{
 	
-	private String name = null;
+	private String title = null;
 	private File file = null;
 	private String globalVariablesPart = null;
 	private String constructorPart = null;
 	private String functionPart = null;
 	
-	public JavaFile(File file, String name) {
-		super(file, name);
+	public JavaFile(File file, String title) {
+		super(file, title);
 		this.file = file;
-		this.name = name;
+		this.title = title;
 	}
 
 	public String getName() {
-		return name;
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String title) {
+		this.title = title;
 	}
 
 	public File getFile() {
