@@ -15,14 +15,24 @@ public class ConfigReader {
 	private final static String propertyFileName = "config.properties";
 	private static Properties prop = new Properties();
 	private static InputStream input = null;
-	private final static String filePropertyPath = System.getProperty("user.dir") + "\\src\\" + propertyFileName;
+	private static String filePropertyPath;
 	private final static String defaultPath = "PATH";
 
-	public static Map renderAuthorization() {
+	private static String getFilePath() {
+		if (OSValidator.isWindows()) {
+			filePropertyPath = System.getProperty("user.dir") + "\\src\\" + propertyFileName;
+		}
+		if (OSValidator.isMac()) {
+			filePropertyPath = System.getProperty("user.dir") + "/src/" + propertyFileName;
+		}
+		return filePropertyPath;
+	}
+
+	public static Map<RuleEnum, Boolean> renderAuthorization() {
 
 		try {
 			Map<RuleEnum, Boolean> propertyMap = new HashMap<RuleEnum, Boolean>();
-			input = new FileInputStream(filePropertyPath);
+			input = new FileInputStream(getFilePath());
 
 			// load our property file
 			prop.load(input);
@@ -52,9 +62,9 @@ public class ConfigReader {
 		return null;
 	}
 
-	public static String getProjectPath() {
+	public static String getProjectProperty() {
 		try {
-			input = new FileInputStream(filePropertyPath);
+			input = new FileInputStream(getFilePath());
 			prop.load(input);
 		} catch (IOException e) {
 			e.printStackTrace();

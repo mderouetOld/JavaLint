@@ -26,7 +26,7 @@ public class Worker {
 	// Find java files and add to list
 	private static void findFiles() {
 		FileUtils fileUtils = new FileUtils();
-		javaFiles = fileUtils.findAllFiles(ConfigReader.getProjectPath());
+		javaFiles = fileUtils.findAllFiles(ConfigReader.getProjectProperty());
 	}
 
 	// Which rules should be apply on files ?
