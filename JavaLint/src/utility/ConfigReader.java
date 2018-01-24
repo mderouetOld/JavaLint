@@ -19,16 +19,16 @@ public class ConfigReader {
 	private final static String defaultPath = "PATH";
 
 	private static String getFilePath() {
-		if (OSValidator.isWindows()) {
+		if (OSUtils.isWindows()) {
 			filePropertyPath = System.getProperty("user.dir") + "\\src\\" + propertyFileName;
 		}
-		if (OSValidator.isMac()) {
+		if (OSUtils.isMac()) {
 			filePropertyPath = System.getProperty("user.dir") + "/src/" + propertyFileName;
 		}
 		return filePropertyPath;
 	}
 
-	public static Map<RuleEnum, Boolean> renderAuthorization() {
+	public static Map<RuleEnum, Boolean> getAuthorization() {
 
 		try {
 			Map<RuleEnum, Boolean> propertyMap = new HashMap<RuleEnum, Boolean>();
