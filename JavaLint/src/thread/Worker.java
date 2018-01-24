@@ -16,6 +16,7 @@ import utility.OSUtils;
 public class Worker {
 	private List<JavaFile> javaFiles = new ArrayList<JavaFile>();
 	private GestionRulesImpl gestionRules = new GestionRulesImpl();
+	private Boolean shouldDisplayErrors = false;
 
 	public void work() {
 		findFiles();
@@ -38,7 +39,11 @@ public class Worker {
 		for (JavaFile currentFile : javaFiles) {
 			// Only process the file if the date of last modified is new
 			if (fileMustBeChecked(currentFile)) {
+				// A file has been modificate, logs must display
+				shouldDisplayErrors = true;
+				// Clear current rules we will check it again
 				currentFile.getRuleError().clear();
+				// Update date (we don't need to check the file since we are up to date now)
 				currentFile.setLastModified((new Date(currentFile.getFile().getAbsoluteFile().lastModified())));
 
 				/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
@@ -49,13 +54,10 @@ public class Worker {
 						applyRules((RuleEnum) key, currentFile);
 					}
 				}
-				// Check has been done, logging errors on files
-				logError(javaFiles);
-			}
-			else {
-				System.out.println("No modifications on " + ConfigReader.getProjectProperty());
 			}
 		}
+		// Check has been done, logging errors on files
+		logError();
 	}
 
 	private boolean fileMustBeChecked(JavaFile javaFile) {
@@ -68,13 +70,19 @@ public class Worker {
 	}
 
 	// Log error
-	private void logError(List<JavaFile> file) {
-		for (JavaFile currentFile : file) {
-			for (RuleError ruleError : currentFile.getRuleError()) {
-				System.out.println("File : " + OSUtils.extractFileNameFromPath(currentFile.getAbsolutePath())
-						+ " Rule : " + ruleError.getRuleError().getName() + " at Line (" + ruleError.getLine() + ","
-						+ ruleError.getColumn() + ")");
+	private void logError() {
+		if (this.shouldDisplayErrors) {
+			// Reset boolean
+			this.shouldDisplayErrors = false;
+			for (JavaFile currentFile : javaFiles) {
+				for (RuleError ruleError : currentFile.getRuleError()) {
+					System.out.println("File : " + OSUtils.extractFileNameFromPath(currentFile.getAbsolutePath())
+							+ " Rule : " + ruleError.getRuleError().getName() + " at Line (" + ruleError.getLine() + ","
+							+ ruleError.getColumn() + ")");
+				}
 			}
+		} else {
+			System.out.println("No modifications on " + ConfigReader.getProjectProperty() + System.lineSeparator());
 		}
 	}
 
