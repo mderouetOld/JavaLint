@@ -1,9 +1,7 @@
-import structure.CapitalizationStyle;
 import thread.DaemonProcessing;
 
 public class Main {
 	public static void main(String[] args) {		
-		
 		// Instantiation runnable process
 		DaemonProcessing daemonProcessing = new DaemonProcessing();
 		
