@@ -9,7 +9,7 @@ import structure.JavaFile;
 import structure.RuleEnum;
 import structure.Rules;
 import utility.ConfigReader;
-import utility.FileUtils;
+import utility.FileTreeUtils;
 
 public class DaemonProcessing implements Runnable {
 
@@ -33,7 +33,6 @@ public class DaemonProcessing implements Runnable {
 
 	public void run() {
 		while (running) {
-			System.out.println("Working...");
 			worker.work();
 			pause();
 		}
