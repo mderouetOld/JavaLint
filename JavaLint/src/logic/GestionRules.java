@@ -1,33 +1,35 @@
 package logic;
 
+import java.util.List;
+
 import structure.CapitalizationStyle;
-import structure.RuleEnum;
+import structure.RuleError;
 
 public interface GestionRules{
 
 	/* ###### Implementation rules ######*/
 	
 	// Size of the line (DEFAULT : 140 caracs max)
-	public boolean lineSize(Integer size);
+	public List<RuleError> lineSize(Integer size);
 	
 	// Check whether the string is correctly instantiated
-	public boolean stringInstantiation();
+	public List<RuleError> stringInstantiation();
 	
 	// Check constant format (DEFAULT : UPPERCASE)
-	public boolean constantUppercase(RuleEnum camelCase);
+	public List<RuleError> constantUppercase(CapitalizationStyle capitalizationStyle);
 	
 	// Check class name (DEFAULT : PASCALCASE)
-	public boolean classNameFormat(CapitalizationStyle capitalizationStyle);
+	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle);
 	
 	// Params of function format (DEFAULT : CAMELCASE)
-	public boolean paramsFunction(CapitalizationStyle capitalizationStyle);
+	public List<RuleError> paramsFunction(CapitalizationStyle capitalizationStyle);
 	
 	// Control whether all possible nulled values are checked correctly
-	public boolean checkNullInput();
+	public List<RuleError> checkNullInput();
 	
 	// Variables never modified must be declared as FINAL
-	public boolean finalDeclarationMissing();
+	public List<RuleError> finalDeclarationMissing();
 	
 	// Nested spaces
-	public boolean nestedSpaces();
+	public List<RuleError> nestedSpaces();
 }

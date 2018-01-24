@@ -1,64 +1,73 @@
 package logic;
 
+import java.util.ArrayList;
+import java.util.List;
 import structure.CapitalizationStyle;
-import structure.RuleEnum;
+import structure.JavaFile;
+import structure.RuleError;
+import structure.Rules;
+import utility.FileUtils;
 
 public class GestionRulesImpl implements GestionRules {
 
 	@Override
-	public boolean lineSize(Integer size) {
-		// TODO Auto-generated method stub
+	public List<RuleError> lineSize(Integer size) {
 		System.out.println("Appying rule lineSize");
-		return false;
+		List<RuleError> fileError = new ArrayList<RuleError>();
+		JavaFile f = FileUtils.currentFileProcessing;
+		//EXAMPLE RULE
+		fileError.add(new RuleError(Rules.LINE_SIZE,10,20, CapitalizationStyle.CAMEL_CASE));
+
+		return fileError;
 	}
 
 	@Override
-	public boolean stringInstantiation() {
+	public List<RuleError> stringInstantiation() {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule stringInstantiation");
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean constantUppercase(RuleEnum camelCase) {
+	public List<RuleError> constantUppercase(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule constantUppercase");
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean classNameFormat(CapitalizationStyle capitalizationStyle) {
+	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule classNameFormat");
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean paramsFunction(CapitalizationStyle capitalizationStyle) {
+	public List<RuleError> paramsFunction(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule paramsFunction");
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean checkNullInput() {
+	public List<RuleError> checkNullInput() {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule checkNullInput");
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean finalDeclarationMissing() {
+	public List<RuleError> finalDeclarationMissing() {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule finalDeclarationMissing");
-		return false;
+		return null;
 	}
 
 	@Override
-	public boolean nestedSpaces() {
+	public List<RuleError> nestedSpaces() {
 		// TODO Auto-generated method stub
 		System.out.println("Appying rule nestedSpaces");
-		return false;
+		return null;
 	}
 
 }

@@ -18,7 +18,14 @@ public class DaemonProcessing implements Runnable {
 
 	// Time between two checks
 	private final long THREAD_BREAK_TIME = 2000;
-	
+
+	// Use to process files
+	private Worker worker;
+
+	public DaemonProcessing() {
+		worker = new Worker();
+	}
+
 	// Must be called to end the daemon processing
 	public void stop() {
 		this.running = false;
@@ -27,11 +34,10 @@ public class DaemonProcessing implements Runnable {
 	public void run() {
 		while (running) {
 			System.out.println("Working...");
-			Worker.work();
+			worker.work();
 			pause();
 		}
 	}
-
 
 	private void pause() {
 		try {

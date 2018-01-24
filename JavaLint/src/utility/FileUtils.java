@@ -9,7 +9,10 @@ import structure.JavaFile;
 public class FileUtils {
 
 	private List<JavaFile> javaFilePath = new ArrayList<JavaFile>();
-
+	
+	/* FILE CURRENTLY SCANNED */
+	public static JavaFile currentFileProcessing = null;
+	
 	public List<JavaFile> findAllFiles(String path) {
 		walk(path);
 		return javaFilePath;

@@ -3,10 +3,8 @@ package thread;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import logic.GestionRules;
 import logic.GestionRulesImpl;
-import structure.CapitalizationStyle;
+import structure.RuleError;
 import structure.JavaFile;
 import structure.RuleEnum;
 import structure.Rules;
@@ -14,60 +12,62 @@ import utility.ConfigReader;
 import utility.FileUtils;
 
 public class Worker {
-	private static List<JavaFile> javaFiles = new ArrayList<JavaFile>();
-	private static List<RuleEnum> rulesToApply = new ArrayList<RuleEnum>();
-	private static GestionRulesImpl gestionRules = new GestionRulesImpl();
-
-	public static void work() {
+	private  List<JavaFile> javaFiles = new ArrayList<JavaFile>();
+	private  GestionRulesImpl gestionRules = new GestionRulesImpl();
+	private List<RuleError> fileError = new ArrayList<RuleError>();
+	
+	public  void work() {
 		findFiles();
 		processFiles();
 	}
 
 	// Find java files and add to list
-	private static void findFiles() {
+	private  void findFiles() {
 		FileUtils fileUtils = new FileUtils();
 		javaFiles = fileUtils.findAllFiles(ConfigReader.getProjectProperty());
 	}
 
 	// Which rules should be apply on files ?
 	// Process all java files and handle errors
-	private static void processFiles() {
-		Map ruleToEnable = ConfigReader.renderAuthorization();
+	private  void processFiles() {
+		Map<RuleEnum, Boolean> ruleToEnable = ConfigReader.renderAuthorization();
 		for (JavaFile currentFile : javaFiles) {
+			/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
+			FileUtils.currentFileProcessing = currentFile;
 			System.out.println(currentFile);
 			for (Object key : ruleToEnable.keySet()) {
 				if ((boolean) ruleToEnable.get(key)) {
-					applyRules((RuleEnum) key);
+					applyRules((RuleEnum) key,currentFile);
 				}
 			}
 		}
-
 	}
 
-	private static void applyRules(RuleEnum rule) {
+	//Apply rules and handle error (adding to javafiles errors)
+	private  void applyRules(RuleEnum rule, JavaFile currentFile) {
 		if (rule.getValue() == Rules.LINE_SIZE_VALUE) {
-			gestionRules.lineSize(null);
+			currentFile.addRuleError(gestionRules.lineSize(null));
 		}
 		if (rule.getValue() == Rules.STRING_INSTANTIATION_VALUE) {
-			gestionRules.stringInstantiation();
+			currentFile.addRuleError(gestionRules.stringInstantiation());
 		}
 		if (rule.getValue() == Rules.CONSTANT_UPPERCASE_VALUE) {
-			gestionRules.constantUppercase(null);
+			currentFile.addRuleError(gestionRules.constantUppercase(null));
 		}
 		if (rule.getValue() == Rules.CLASS_NAME_FORMAT_VALUE) {
-			gestionRules.classNameFormat(null);
+			currentFile.addRuleError(gestionRules.classNameFormat(null));
 		}
 		if (rule.getValue() == Rules.PARAMS_FUNCTION_VALUE) {
-			gestionRules.paramsFunction(null);
+			currentFile.addRuleError(gestionRules.paramsFunction(null));
 		}
 		if (rule.getValue() == Rules.CHECK_NULL_INPUT_VALUE) {
-			gestionRules.checkNullInput();
+			currentFile.addRuleError(gestionRules.checkNullInput());
 		}
 		if (rule.getValue() == Rules.FINAL_DECLARATION_MISSING_VALUE) {
-			gestionRules.finalDeclarationMissing();
+			currentFile.addRuleError(gestionRules.finalDeclarationMissing());
 		}
 		if (rule.getValue() == Rules.NESTED_SPACES_VALUE) {
-			gestionRules.nestedSpaces();
+			currentFile.addRuleError(gestionRules.nestedSpaces());
 		}
 	}
 
