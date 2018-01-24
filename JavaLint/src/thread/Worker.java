@@ -1,6 +1,7 @@
 package thread;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import logic.GestionRulesImpl;
@@ -9,42 +10,76 @@ import structure.JavaFile;
 import structure.RuleEnum;
 import structure.Rules;
 import utility.ConfigReader;
-import utility.FileUtils;
+import utility.FileTreeUtils;
+import utility.OSUtils;
 
 public class Worker {
-	private  List<JavaFile> javaFiles = new ArrayList<JavaFile>();
-	private  GestionRulesImpl gestionRules = new GestionRulesImpl();
-	private List<RuleError> fileError = new ArrayList<RuleError>();
-	
-	public  void work() {
+	private List<JavaFile> javaFiles = new ArrayList<JavaFile>();
+	private GestionRulesImpl gestionRules = new GestionRulesImpl();
+
+	public void work() {
 		findFiles();
 		processFiles();
 	}
 
 	// Find java files and add to list
-	private  void findFiles() {
-		FileUtils fileUtils = new FileUtils();
-		javaFiles = fileUtils.findAllFiles(ConfigReader.getProjectProperty());
+	private void findFiles() {
+		FileTreeUtils fileUtils = new FileTreeUtils();
+		List<JavaFile> refreshList = fileUtils.findAllFiles(ConfigReader.getProjectProperty());
+		if (refreshList.size() != javaFiles.size()) {
+			this.javaFiles = refreshList;
+		}
 	}
 
 	// Which rules should be apply on files ?
 	// Process all java files and handle errors
-	private  void processFiles() {
-		Map<RuleEnum, Boolean> ruleToEnable = ConfigReader.renderAuthorization();
+	private void processFiles() {
+		Map<RuleEnum, Boolean> ruleToEnable = ConfigReader.getAuthorization();
 		for (JavaFile currentFile : javaFiles) {
-			/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
-			FileUtils.currentFileProcessing = currentFile;
-			System.out.println(currentFile);
-			for (Object key : ruleToEnable.keySet()) {
-				if ((boolean) ruleToEnable.get(key)) {
-					applyRules((RuleEnum) key,currentFile);
+			// Only process the file if the date of last modified is new
+			if (fileMustBeChecked(currentFile)) {
+				currentFile.getRuleError().clear();
+				currentFile.setLastModified((new Date(currentFile.getFile().getAbsoluteFile().lastModified())));
+
+				/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
+				FileTreeUtils.currentFileProcessing = currentFile;
+				System.out.println(currentFile);
+				for (Object key : ruleToEnable.keySet()) {
+					if ((boolean) ruleToEnable.get(key)) {
+						applyRules((RuleEnum) key, currentFile);
+					}
 				}
+				// Check has been done, logging errors on files
+				logError(javaFiles);
+			}
+			else {
+				System.out.println("No modifications on " + ConfigReader.getProjectProperty());
 			}
 		}
 	}
 
-	//Apply rules and handle error (adding to javafiles errors)
-	private  void applyRules(RuleEnum rule, JavaFile currentFile) {
+	private boolean fileMustBeChecked(JavaFile javaFile) {
+		if (javaFile.getLastModified() != null) {
+			if (!new Date(javaFile.getFile().getAbsoluteFile().lastModified()).after(javaFile.getLastModified())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// Log error
+	private void logError(List<JavaFile> file) {
+		for (JavaFile currentFile : file) {
+			for (RuleError ruleError : currentFile.getRuleError()) {
+				System.out.println("File : " + OSUtils.extractFileNameFromPath(currentFile.getAbsolutePath())
+						+ " Rule : " + ruleError.getRuleError().getName() + " at Line (" + ruleError.getLine() + ","
+						+ ruleError.getColumn() + ")");
+			}
+		}
+	}
+
+	// Apply rules and handle error (adding to javafiles errors)
+	private void applyRules(RuleEnum rule, JavaFile currentFile) {
 		if (rule.getValue() == Rules.LINE_SIZE_VALUE) {
 			currentFile.addRuleError(gestionRules.lineSize(null));
 		}

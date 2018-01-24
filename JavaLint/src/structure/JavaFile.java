@@ -2,6 +2,7 @@ package structure;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class JavaFile extends File {
@@ -13,6 +14,7 @@ public class JavaFile extends File {
 	private String constructorPart;
 	private String functionPart;
 	private List<RuleError> ruleError = null;
+	private Date lastModified;
 
 	public JavaFile(File file, String title) {
 		super(file, title);
@@ -81,5 +83,10 @@ public class JavaFile extends File {
 			}
 		}
 	}
-
+	public Date getLastModified() {
+		return lastModified;
+	}
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
+	}
 }
