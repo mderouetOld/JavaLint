@@ -1,16 +1,5 @@
 package thread;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import structure.JavaFile;
-import structure.RuleEnum;
-import structure.Rules;
-import utility.ConfigReader;
-import utility.FileTreeUtils;
-
 public class DaemonProcessing implements Runnable {
 
 	// Asynchronous boolean (can be modificate by other classes)
