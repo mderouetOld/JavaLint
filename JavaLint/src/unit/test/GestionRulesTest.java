@@ -7,7 +7,7 @@ import logic.GestionRulesImpl;
 import structure.JavaFile;
 import structure.RuleError;
 import structure.Rules;
-import utility.FileTreeUtils;
+import utility.FileTools;
 import utility.OSUtils;
 
 public class GestionRulesTest extends TestCase {
@@ -15,12 +15,12 @@ public class GestionRulesTest extends TestCase {
 
 	public void testLineSize() {
 		if (OSUtils.isWindows()) {
-			FileTreeUtils.currentFileProcessing = new JavaFile(
+			FileTools.currentFileProcessing = new JavaFile(
 					new File(System.getProperty("user.dir").toString() + "\\tests\\unit_test\\TestLineSize.java"),
 					"TestLineSize");
 		}
 		if (OSUtils.isMac()) {
-			FileTreeUtils.currentFileProcessing = new JavaFile(
+			FileTools.currentFileProcessing = new JavaFile(
 					new File(System.getProperty("user.dir").toString() + "/tests/unit_test/TestLineSize.java"),
 					"TestLineSize");
 		}

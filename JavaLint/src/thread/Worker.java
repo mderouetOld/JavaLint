@@ -10,7 +10,7 @@ import structure.JavaFile;
 import structure.RuleEnum;
 import structure.Rules;
 import utility.ConfigReader;
-import utility.FileTreeUtils;
+import utility.FileTools;
 import utility.OSUtils;
 
 public class Worker {
@@ -25,7 +25,7 @@ public class Worker {
 
 	// Find java files and add to list
 	private void findFiles() {
-		FileTreeUtils fileUtils = new FileTreeUtils();
+		FileTools fileUtils = new FileTools();
 		List<JavaFile> refreshList = fileUtils.findAllFiles(ConfigReader.getProjectProperty());
 		if (refreshList.size() != javaFiles.size()) {
 			this.javaFiles = refreshList;
@@ -47,8 +47,8 @@ public class Worker {
 				currentFile.setLastModified((new Date(currentFile.getFile().getAbsoluteFile().lastModified())));
 
 				/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
-				FileTreeUtils.currentFileProcessing = currentFile;
-				System.out.println(currentFile);
+				FileTools.currentFileProcessing = currentFile;
+				System.out.println(currentFile.getFile().getAbsolutePath());
 				for (Object key : ruleToEnable.keySet()) {
 					if ((boolean) ruleToEnable.get(key)) {
 						applyRules((RuleEnum) key, currentFile);

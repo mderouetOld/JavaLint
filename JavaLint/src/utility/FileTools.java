@@ -6,7 +6,7 @@ import java.util.List;
 
 import structure.JavaFile;
 
-public class FileTreeUtils {
+public class FileTools {
 
 	private List<JavaFile> javaFilePath = new ArrayList<JavaFile>();
 

@@ -8,7 +8,7 @@ import org.apache.commons.io.LineIterator;
 import structure.CapitalizationStyle;
 import structure.RuleError;
 import structure.Rules;
-import utility.FileTreeUtils;
+import utility.FileTools;
 
 public class GestionRulesImpl implements GestionRules {
 
@@ -27,7 +27,7 @@ public class GestionRulesImpl implements GestionRules {
 		// Iterate on file
 		LineIterator it = null;
 		try {
-			it = FileUtils.lineIterator(FileTreeUtils.currentFileProcessing.getFile(), "UTF-8");
+			it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
 			int index = 0;
 			while (it.hasNext()) {
 				index++;
