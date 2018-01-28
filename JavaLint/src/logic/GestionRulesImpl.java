@@ -14,12 +14,12 @@ public class GestionRulesImpl implements GestionRules {
 
 	@Override
 	public List<RuleError> lineSize(Integer size) {
-		//Default value of String max size
+		// Default value of String max size
 		if (size == null) {
 			size = 140;
 		}
-		
-		//Creating error array
+
+		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
 
 		System.out.println("Applying rule lineSize");
@@ -33,7 +33,7 @@ public class GestionRulesImpl implements GestionRules {
 				index++;
 				String line = it.nextLine();
 				if (line.length() > size.intValue()) {
-					fileError.add(new RuleError(Rules.LINE_SIZE, index, line.length(), null));
+					fileError.add(new RuleError(Rules.LINE_SIZE, index, line.length(), null, line));
 				}
 			}
 		} catch (IOException e) {
@@ -52,20 +52,46 @@ public class GestionRulesImpl implements GestionRules {
 	public List<RuleError> stringInstantiation() {
 		// TODO Auto-generated method stub
 		System.out.println("Applying rule stringInstantiation");
-		return null;
+
+		/* EXAMPLE */
+		List<RuleError> fileError = new ArrayList<RuleError>();
+		// TODO DELETE
+		// fileError.add(new RuleError(Rules.STRING_INSTANTIATION, 3, 22, null,
+		// "filePropertyPath = System.getProperty(\"user.dir\") + \"\\\\src\\\\\" +
+		// propertyFileName;"));
+		// fileError.add(new RuleError(Rules.STRING_INSTANTIATION, 3, 22, null, " //
+		// Size of the line (DEFAULT : 140 caracs max)"));
+		// fileError.add(new RuleError(Rules.STRING_INSTANTIATION, 15, 200, null,
+		// "List<RuleError> nestedSpaces();"));
+
+		return fileError;
 	}
 
 	@Override
 	public List<RuleError> constantUppercase(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
 		System.out.println("Applying rule constantUppercase");
-		return null;
+
+		/* EXAMPLE */
+		List<RuleError> fileError = new ArrayList<RuleError>();
+		// TODO DELETE
+		// fileError.add(new RuleError(Rules.CONSTANT_UPPERCASE, 15, 22, null, "public
+		// List<RuleError> checkNullInput();"));
+		// fileError.add(new RuleError(Rules.CONSTANT_UPPERCASE, 20, 22, null, "public
+		// interface GestionRules{"));
+		// fileError.add(new RuleError(Rules.CONSTANT_UPPERCASE, 652, 200, null,
+		// "filePropertyPath = System.getProperty(\"user.dir\") + \"\\\\src\\\\\" +
+		// propertyFileName;"));
+
+		return fileError;
 	}
 
 	@Override
 	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
 		System.out.println("Applying rule classNameFormat");
+
+
 		return null;
 	}
 
@@ -94,7 +120,52 @@ public class GestionRulesImpl implements GestionRules {
 	public List<RuleError> nestedSpaces() {
 		// TODO Auto-generated method stub
 		System.out.println("Applying rule nestedSpaces");
-		return null;
+		// Creating error array
+		List<RuleError> fileError = new ArrayList<RuleError>();
+
+		System.out.println("Applying rule lineSize");
+
+		// Iterate on file
+		LineIterator it = null;
+		try {
+			it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
+			int index = 0;
+			while (it.hasNext()) {
+				index++;
+				String line = it.nextLine();
+				for (int column = 0; column < line.length(); column++) {
+					// The char is empty
+					if (Character.isWhitespace(line.charAt(column))) {
+						// Check whether we are out of bound (in order to check nested space)
+						if ((column+1 < line.length() && column > 1)) {
+							// Find if there is a nested space at the current location
+							if ((compareNestedSpace(line.charAt(column - 1)) || compareNestedSpace(line.charAt(column + 1)))) {
+								fileError.add(new RuleError(Rules.NESTED_SPACES, index, column, null, line));
+							}
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				it.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return fileError;
 	}
 
+	private boolean compareNestedSpace(Character c) {
+		switch (c) {
+		case '(':
+		case ')':
+		case '<':
+		case '>':
+			return true;
+		}
+		return false;
+	}
 }

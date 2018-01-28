@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import export.ExportHtml;
 import logic.GestionRulesImpl;
 import structure.RuleError;
 import structure.JavaFile;
@@ -31,7 +33,6 @@ public class Worker {
 			this.javaFiles = refreshList;
 		}
 	}
-
 	// Which rules should be apply on files ?
 	// Process all java files and handle errors
 	private void processFiles() {
@@ -57,7 +58,8 @@ public class Worker {
 			}
 		}
 		// Check has been done, logging errors on files
-		logError();
+		logErrorConsole();
+
 	}
 
 	private boolean fileMustBeChecked(JavaFile javaFile) {
@@ -70,7 +72,7 @@ public class Worker {
 	}
 
 	// Log error
-	private void logError() {
+	private void logErrorConsole() {
 		if (this.shouldDisplayErrors) {
 			// Reset boolean
 			this.shouldDisplayErrors = false;
@@ -81,6 +83,8 @@ public class Worker {
 							+ ruleError.getColumn() + ")");
 				}
 			}
+			// Export html
+			ExportHtml.generateHtmlLogError(javaFiles);
 		} else {
 			System.out.println("No modifications on " + ConfigReader.getProjectProperty() + System.lineSeparator());
 		}

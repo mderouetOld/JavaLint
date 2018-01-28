@@ -34,7 +34,7 @@ public class ExportHtml {
 		if (OSUtils.isMac()) {
 			pathTemplate = pathTemplate.replace("\\", "/");
 		}
-		
+
 		File input = new File(pathTemplate);
 
 		try {
@@ -73,10 +73,10 @@ public class ExportHtml {
 
 	private static void constructTableContent(String element) {
 		doc.body().getElementsByClass(element).append("<thead id=thead0>");
-		doc.body().getElementById("thead0").append("<tr> Régle");
-		doc.body().getElementById("thead0").append("<tr> Fichier");
-		doc.body().getElementById("thead0").append("<tr> Ligne/Colonne");
+		doc.body().getElementById("thead0").append("<tr> Regle");
 		doc.body().getElementById("thead0").append("<tr> Description");
+		doc.body().getElementById("thead0").append("<tr> Ligne/Colonne");
+		doc.body().getElementById("thead0").append("<tr> Fichier");
 
 		doc.body().getElementsByClass(element).append("<tbody id=tbody0>");
 		int indexRules = 0;
@@ -85,13 +85,15 @@ public class ExportHtml {
 				doc.body().getElementById("tbody0").append("<tr id=" + "tr" + String.valueOf(indexRules) + " class="
 						+ colorByRule(ruleError) + ">" + "</tr>");
 				doc.body().getElementById("tr" + String.valueOf(indexRules))
-						.append("<td>" + ruleError.getRuleError().toString() + "</td>");
+						.append("<td>" + ruleError.getRuleError().getName() + "</td>");
 				doc.body().getElementById("tr" + String.valueOf(indexRules))
-						.append("<td>" + javaFile.getName() + "</td>");
+				.append("<td>" + ruleError.getLineDescriptionError() + "</td>");
 				doc.body().getElementById("tr" + String.valueOf(indexRules))
 						.append("<td>" + "(" + ruleError.getLine() + "," + ruleError.getColumn() + ")" + "</td>");
+				doc.body().getElementById("tr" + String.valueOf(indexRules))
+						.append("<td>" + javaFile.getName() + "</td>");
 				doc.body().getElementById("tbody0").append("</tr>");
-				
+
 				// On incremente l'index de la ligne
 				indexRules++;
 			}
@@ -106,7 +108,7 @@ public class ExportHtml {
 		case 2:
 			return "danger";
 		case 3:
-			return "info";
+			return "default";
 		case 4:
 			return "warning";
 		case 5:
@@ -116,7 +118,7 @@ public class ExportHtml {
 		case 7:
 			return "default";
 		case 8:
-			return "default";
+			return "info";
 		}
 		return hexa;
 	}

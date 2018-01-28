@@ -1,17 +1,27 @@
 package structure;
 
-
 public class RuleError {
 	private RuleEnum rule;
 	private Integer line;
 	private Integer column;
 	private RuleEnum capitalizationStyle;
+	private String lineDescriptionError;
 
-	public RuleError(RuleEnum ruleError,Integer line,Integer column,RuleEnum capitalizationStyle) {
+	public RuleError(RuleEnum ruleError, Integer line, Integer column, RuleEnum capitalizationStyle,
+			String lineDescriptionError) {
 		this.rule = ruleError;
 		this.line = line;
 		this.column = column;
 		this.capitalizationStyle = capitalizationStyle;
+		this.lineDescriptionError = lineDescriptionError;
+	}
+
+	public String getLineDescriptionError() {
+		return lineDescriptionError;
+	}
+
+	public void setLineDescriptionError(String lineDescriptionError) {
+		this.lineDescriptionError = lineDescriptionError;
 	}
 
 	public RuleEnum getRuleError() {
