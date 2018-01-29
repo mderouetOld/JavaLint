@@ -1,13 +1,14 @@
 package thread;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import export.ExportHtml;
 import logic.GestionRulesImpl;
 import structure.RuleError;
+import structure.ConfigFile;
+import structure.FileAbstract;
 import structure.JavaFile;
 import structure.RuleEnum;
 import structure.Rules;
@@ -19,28 +20,54 @@ public class Worker {
 	private List<JavaFile> javaFiles = new ArrayList<JavaFile>();
 	private GestionRulesImpl gestionRules = new GestionRulesImpl();
 	private Boolean shouldDisplayErrors = false;
-
+	private ConfigFile properties = null;
+	
 	public void work() {
+		loadAuthorization();
 		findFiles();
 		processFiles();
 	}
 
+	private void loadAuthorization() {
+		
+		// Load property file for the first time
+		if(properties == null)
+			properties = new ConfigFile(new File(ConfigReader.getConfigFilePath()), ConfigReader.PROPERTY_FILE_NAME);
+		
+		// If property has changed
+		if(fileMustBeChecked(properties)) {
+			// Retrieve rules
+			properties.setRules(ConfigReader.getAuthorization());
+			// Update the date
+			properties.setLastModified(new Date(properties.getFile().getAbsoluteFile().lastModified()));
+			
+			
+			// Clear the list, properties has changed, we need to check again all files
+			for(JavaFile currentFile : javaFiles) {
+				currentFile.setLastModified(null);
+			}
+			
+			System.out.println("Le fichier de propriété a changé");
+		}
+	}
+	
 	// Find java files and add to list
 	private void findFiles() {
 		FileTools fileUtils = new FileTools();
-		List<JavaFile> refreshList = fileUtils.findAllFiles(ConfigReader.getProjectProperty());
-		if (refreshList.size() != javaFiles.size()) {
-			this.javaFiles = refreshList;
+		List<JavaFile> updatedJavaFileList = fileUtils.findAllFiles(ConfigReader.getProjectPropertyFolderPath());
+		if (updatedJavaFileList.size() != javaFiles.size()) {
+			this.javaFiles = updatedJavaFileList;
 		}
 	}
+	
+
 	// Which rules should be apply on files ?
 	// Process all java files and handle errors
 	private void processFiles() {
-		Map<RuleEnum, Boolean> ruleToEnable = ConfigReader.getAuthorization();
 		for (JavaFile currentFile : javaFiles) {
 			// Only process the file if the date of last modified is new
 			if (fileMustBeChecked(currentFile)) {
-				// A file has been modificate, logs must display
+				// A file has been modified, logs must be displayed
 				shouldDisplayErrors = true;
 				// Clear current rules we will check it again
 				currentFile.getRuleError().clear();
@@ -50,8 +77,8 @@ public class Worker {
 				/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
 				FileTools.currentFileProcessing = currentFile;
 				System.out.println(currentFile.getFile().getAbsolutePath());
-				for (Object key : ruleToEnable.keySet()) {
-					if ((boolean) ruleToEnable.get(key)) {
+				for (Object key : properties.getRulesEnabled().keySet()) {
+					if ((boolean) properties.getRulesEnabled().get(key)) {
 						applyRules((RuleEnum) key, currentFile);
 					}
 				}
@@ -59,12 +86,12 @@ public class Worker {
 		}
 		// Check has been done, logging errors on files
 		logErrorConsole();
-
 	}
 
-	private boolean fileMustBeChecked(JavaFile javaFile) {
-		if (javaFile.getLastModified() != null) {
-			if (!new Date(javaFile.getFile().getAbsoluteFile().lastModified()).after(javaFile.getLastModified())) {
+	// Check whether the last modification is newer than our JavaFile stocked last modified value
+	private boolean fileMustBeChecked(FileAbstract file) {
+		if (file.getLastModified() != null) {
+			if (!new Date(file.getFile().getAbsoluteFile().lastModified()).after(file.getLastModified())) {
 				return false;
 			}
 		}
@@ -78,7 +105,7 @@ public class Worker {
 			this.shouldDisplayErrors = false;
 			for (JavaFile currentFile : javaFiles) {
 				for (RuleError ruleError : currentFile.getRuleError()) {
-					System.out.println("File : " + OSUtils.extractFileNameFromPath(currentFile.getAbsolutePath())
+					System.out.println("File : " + OSUtils.extractFileNameFromPath(currentFile.getFile().getAbsolutePath())
 							+ " Rule : " + ruleError.getRuleError().getName() + " at Line (" + ruleError.getLine() + ","
 							+ ruleError.getColumn() + ")");
 				}
@@ -86,7 +113,7 @@ public class Worker {
 			// Export html
 			ExportHtml.generateHtmlLogError(javaFiles);
 		} else {
-			System.out.println("No modifications on " + ConfigReader.getProjectProperty() + System.lineSeparator());
+			System.out.println("No modifications on " + ConfigReader.getProjectPropertyFolderPath() + System.lineSeparator());
 		}
 	}
 

@@ -55,14 +55,6 @@ public class GestionRulesImpl implements GestionRules {
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
-		// TODO DELETE
-		// fileError.add(new RuleError(Rules.STRING_INSTANTIATION, 3, 22, null,
-		// "filePropertyPath = System.getProperty(\"user.dir\") + \"\\\\src\\\\\" +
-		// propertyFileName;"));
-		// fileError.add(new RuleError(Rules.STRING_INSTANTIATION, 3, 22, null, " //
-		// Size of the line (DEFAULT : 140 caracs max)"));
-		// fileError.add(new RuleError(Rules.STRING_INSTANTIATION, 15, 200, null,
-		// "List<RuleError> nestedSpaces();"));
 
 		return fileError;
 	}
@@ -74,14 +66,7 @@ public class GestionRulesImpl implements GestionRules {
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
-		// TODO DELETE
-		// fileError.add(new RuleError(Rules.CONSTANT_UPPERCASE, 15, 22, null, "public
-		// List<RuleError> checkNullInput();"));
-		// fileError.add(new RuleError(Rules.CONSTANT_UPPERCASE, 20, 22, null, "public
-		// interface GestionRules{"));
-		// fileError.add(new RuleError(Rules.CONSTANT_UPPERCASE, 652, 200, null,
-		// "filePropertyPath = System.getProperty(\"user.dir\") + \"\\\\src\\\\\" +
-		// propertyFileName;"));
+
 
 		return fileError;
 	}

@@ -2,46 +2,23 @@ package structure;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class JavaFile extends File {
+public class JavaFile extends FileAbstract{
 
-	private static final long serialVersionUID = 1L;
-	private String title;
-	private File file;
 	private String globalVariablesPart;
 	private String constructorPart;
 	private String functionPart;
 	private List<RuleError> ruleError = null;
-	private Date lastModified;
 
 	public JavaFile(File file, String title) {
-		super(file, title);
-		this.file = file;
-		this.title = title;
+		super(title,file);
 		ruleError = new ArrayList<RuleError>();
 	}
 
 	public JavaFile() {
-		super("");
+		super();
 		ruleError = new ArrayList<RuleError>();
-	}
-
-	public String getName() {
-		return title;
-	}
-
-	public void setName(String title) {
-		this.title = title;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public void setFile(File file) {
-		this.file = file;
 	}
 
 	public String getGlobalVariablesPart() {
@@ -83,10 +60,5 @@ public class JavaFile extends File {
 			}
 		}
 	}
-	public Date getLastModified() {
-		return lastModified;
-	}
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
+
 }

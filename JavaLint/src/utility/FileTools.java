@@ -9,15 +9,14 @@ import structure.JavaFile;
 public class FileTools {
 
 	private List<JavaFile> javaFilePath = new ArrayList<JavaFile>();
-
-	/* FILE CURRENTLY SCANNED */
 	public static JavaFile currentFileProcessing = null;
-
+	
 	public List<JavaFile> findAllFiles(String path) {
 		walk(path);
 		return javaFilePath;
 	}
 
+	// Recursive path builder
 	private void walk(String path) {
 		File root = new File(path);
 		File[] list = root.listFiles();
