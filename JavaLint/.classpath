@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"></classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/commons-io-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/commons-io-2.6-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/commons-io-2.6-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/commons-lang-2.6-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/commons-lang-2.6-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/Desktop/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/jsoup-1.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/jsoup-1.11.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Warp/git/JavaLint/JavaLint/libs/jsoup-1.11.2-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
