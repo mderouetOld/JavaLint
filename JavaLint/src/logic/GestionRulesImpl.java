@@ -108,8 +108,6 @@ public class GestionRulesImpl implements GestionRules {
 		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
 
-		System.out.println("Applying rule lineSize");
-
 		// Iterate on file
 		LineIterator it = null;
 		try {
