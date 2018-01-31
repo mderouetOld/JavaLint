@@ -6,9 +6,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import structure.RuleEnum;
-import structure.Rules;
+import structure.Rule;
 
 public class ConfigReader {
 
@@ -30,24 +28,24 @@ public class ConfigReader {
 		return filePropertyPath;
 	}
 
-	public static Map<RuleEnum, Boolean> getAuthorization() {
+	public static Map<Rule, Boolean> getAuthorization() {
 
 		try {
-			Map<RuleEnum, Boolean> propertyMap = new HashMap<RuleEnum, Boolean>();
+			Map<Rule, Boolean> propertyMap = new HashMap<Rule, Boolean>();
 			input = new FileInputStream(getConfigFilePath());
 
 			// load our property file
 			prop.load(input);
 
 			// get values and return map
-			propertyMap.put(Rules.LINE_SIZE, readValueProp("LINE_SIZE"));
-			propertyMap.put(Rules.STRING_INSTANTIATION, readValueProp("STRING_INSTANTIATION"));
-			propertyMap.put(Rules.CONSTANT_UPPERCASE, readValueProp("CONSTANT_UPPERCASE"));
-			propertyMap.put(Rules.CLASS_NAME_FORMAT, readValueProp("CLASS_NAME_FORMAT"));
-			propertyMap.put(Rules.PARAMS_FUNCTION, readValueProp("PARAMS_FUNCTION"));
-			propertyMap.put(Rules.CHECK_NULL_INPUT, readValueProp("CHECK_NULL_INPUT"));
-			propertyMap.put(Rules.FINAL_DECLARATION_MISSING, readValueProp("FINAL_DECLARATION_MISSING"));
-			propertyMap.put(Rules.NESTED_SPACES, readValueProp("NESTED_SPACES"));
+			propertyMap.put(Rule.LINE_SIZE, readValueProp("LINE_SIZE"));
+			propertyMap.put(Rule.STRING_INSTANTIATION, readValueProp("STRING_INSTANTIATION"));
+			propertyMap.put(Rule.CONSTANT_UPPERCASE, readValueProp("CONSTANT_UPPERCASE"));
+			propertyMap.put(Rule.CLASS_NAME_FORMAT, readValueProp("CLASS_NAME_FORMAT"));
+			propertyMap.put(Rule.PARAMS_FUNCTION, readValueProp("PARAMS_FUNCTION"));
+			propertyMap.put(Rule.CHECK_NULL_INPUT, readValueProp("CHECK_NULL_INPUT"));
+			propertyMap.put(Rule.FINAL_DECLARATION_MISSING, readValueProp("FINAL_DECLARATION_MISSING"));
+			propertyMap.put(Rule.NESTED_SPACES, readValueProp("NESTED_SPACES"));
 
 			return propertyMap;
 		} catch (IOException ex) {

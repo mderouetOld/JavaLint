@@ -7,7 +7,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import structure.CapitalizationStyle;
 import structure.RuleError;
-import structure.Rules;
+import structure.Rule;
 import utility.FileTools;
 
 public class GestionRulesImpl implements GestionRules {
@@ -33,7 +33,7 @@ public class GestionRulesImpl implements GestionRules {
 				index++;
 				String line = it.nextLine();
 				if (line.length() > size.intValue()) {
-					fileError.add(new RuleError(Rules.LINE_SIZE, index, line.length(), null, line));
+					fileError.add(new RuleError(Rule.LINE_SIZE, index, line.length(), null, line));
 				}
 			}
 		} catch (IOException e) {
@@ -123,7 +123,7 @@ public class GestionRulesImpl implements GestionRules {
 						if ((column+1 < line.length() && column > 1)) {
 							// Find if there is a nested space at the current location
 							if ((compareNestedSpace(line.charAt(column - 1)) || compareNestedSpace(line.charAt(column + 1)))) {
-								fileError.add(new RuleError(Rules.NESTED_SPACES, index, column, null, line));
+								fileError.add(new RuleError(Rule.NESTED_SPACES, index, column, null, line));
 							}
 						}
 					}

@@ -5,17 +5,17 @@ import java.util.Map;
 
 public class ConfigFile extends FileAbstract {
 
-	private Map<RuleEnum, Boolean> rulesEnabled = null;
+	private Map<Rule, Boolean> rulesEnabled = null;
 
 	public ConfigFile(File file,String title) {
 		super(title,file);
 	}
 
-	public Map<RuleEnum, Boolean> getRulesEnabled() {
+	public Map<Rule, Boolean> getRulesEnabled() {
 		return rulesEnabled;
 	}
 
-	public void setRules(Map<RuleEnum, Boolean> rulesEnabled) {
+	public void setRules(Map<Rule, Boolean> rulesEnabled) {
 		this.rulesEnabled = rulesEnabled;
 	}
 }

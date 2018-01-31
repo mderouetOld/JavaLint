@@ -1,13 +1,13 @@
 package structure;
 
 public class RuleError {
-	private RuleEnum rule;
+	private Rule rule;
 	private Integer line;
 	private Integer column;
-	private RuleEnum capitalizationStyle;
+	private CapitalizationStyle capitalizationStyle;
 	private String lineDescriptionError;
 
-	public RuleError(RuleEnum ruleError, Integer line, Integer column, RuleEnum capitalizationStyle,
+	public RuleError(Rule ruleError, Integer line, Integer column, CapitalizationStyle capitalizationStyle,
 			String lineDescriptionError) {
 		this.rule = ruleError;
 		this.line = line;
@@ -24,11 +24,11 @@ public class RuleError {
 		this.lineDescriptionError = lineDescriptionError;
 	}
 
-	public RuleEnum getRuleError() {
+	public Rule getRuleError() {
 		return rule;
 	}
 
-	public void setRuleError(RuleEnum ruleError) {
+	public void setRuleError(Rule ruleError) {
 		this.rule = ruleError;
 	}
 
@@ -48,11 +48,11 @@ public class RuleError {
 		this.column = column;
 	}
 
-	public RuleEnum getCapitalizationStyle() {
+	public CapitalizationStyle getCapitalizationStyle() {
 		return capitalizationStyle;
 	}
 
-	public void setCapitalizationStyle(RuleEnum capitalizationStyle) {
+	public void setCapitalizationStyle(CapitalizationStyle capitalizationStyle) {
 		this.capitalizationStyle = capitalizationStyle;
 	}
 }

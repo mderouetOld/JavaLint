@@ -4,15 +4,21 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CapitalizationStyle {
+import org.apache.commons.lang.enums.ValuedEnum;
+
+public class CapitalizationStyle extends ValuedEnum {
+
+	protected CapitalizationStyle(String name, int value) {
+		super(name, value);
+	}
 
 	public static final Integer CAMEL_CASE_VALUE = 1;
 	public static final Integer PASCAL_CASE_VALUE = 2;
 	public static final Integer UPPER_CASE_VALUE = 3;
 	
-	public static final RuleEnum CAMEL_CASE = new RuleEnum("Camel Case", CAMEL_CASE_VALUE);
-	public static final RuleEnum PASCAL_CASE = new RuleEnum("Pascal Case", PASCAL_CASE_VALUE);
-	public static final RuleEnum UPPER_CASE = new RuleEnum("Upper Case", UPPER_CASE_VALUE);
+	public static final CapitalizationStyle CAMEL_CASE = new CapitalizationStyle("Camel Case", CAMEL_CASE_VALUE);
+	public static final CapitalizationStyle PASCAL_CASE = new CapitalizationStyle("Pascal Case", PASCAL_CASE_VALUE);
+	public static final CapitalizationStyle UPPER_CASE = new CapitalizationStyle("Upper Case", UPPER_CASE_VALUE);
 	
 	public static List<String> returnCapititalizationStyles() {
 		Field[] fields = CapitalizationStyle.class.getFields();

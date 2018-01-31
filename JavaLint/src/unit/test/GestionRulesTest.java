@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import logic.GestionRulesImpl;
 import structure.JavaFile;
 import structure.RuleError;
-import structure.Rules;
+import structure.Rule;
 import utility.FileTools;
 import utility.OSUtils;
 
@@ -29,7 +29,7 @@ public class GestionRulesTest extends TestCase {
 		assertEquals("Number of column first error", 306, errorList.get(0).getColumn().intValue());
 		assertEquals("Number of line second error", 82, errorList.get(1).getLine().intValue());
 		assertEquals("Number of column first error", 315, errorList.get(1).getColumn().intValue());
-		assertEquals("Constant rule first error", Rules.LINE_SIZE, errorList.get(0).getRuleError());
-		assertEquals("Constant rule second error", Rules.LINE_SIZE, errorList.get(1).getRuleError());
+		assertEquals("Constant rule first error", Rule.LINE_SIZE, errorList.get(0).getRuleError());
+		assertEquals("Constant rule second error", Rule.LINE_SIZE, errorList.get(1).getRuleError());
 	}
 }
