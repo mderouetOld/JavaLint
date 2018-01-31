@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
-
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -24,7 +24,8 @@ public class ExportHtml {
 	private static List<JavaFile> javaFiles;
 	private static final String templateLogFile = "template_logs.html";
 	private static final String logsFile = "logs.html";
-
+	private static final Logger LOGGER = Logger.getLogger(ExportHtml.class);
+	
 	public static void generateHtmlLogError(List<JavaFile> files) {
 		String pathLogs = System.getProperty("user.dir") + "\\export\\bin\\" + logsFile;
 
@@ -61,7 +62,7 @@ public class ExportHtml {
 			e.printStackTrace();
 		}
 
-		System.out.println("Logs updated in : " + pathLogs);
+		LOGGER.info("Logs updated in : " + pathLogs);
 	}
 
 	private static void fillBodyContent() {

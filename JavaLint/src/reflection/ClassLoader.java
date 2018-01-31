@@ -6,7 +6,10 @@ import java.net.URLClassLoader;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 
+import org.apache.log4j.Logger;
+
 public class ClassLoader {
+	private static final Logger LOGGER = Logger.getLogger(ClassLoader.class);
 
 	public static Class<?> load(String folderPath) {
  		Class cls = null;
@@ -28,7 +31,7 @@ public class ClassLoader {
 			ProtectionDomain pDomain = cls.getProtectionDomain();
 			CodeSource cSource = pDomain.getCodeSource();
 			URL urlfrom = cSource.getLocation();
-			System.out.println(urlfrom.getFile());
+			LOGGER.info(urlfrom.getFile());
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

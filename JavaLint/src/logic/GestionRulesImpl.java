@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.log4j.Logger;
 import structure.CapitalizationStyle;
 import structure.RuleError;
 import structure.Rule;
 import utility.FileTools;
 
 public class GestionRulesImpl implements GestionRules {
+	private static final Logger LOGGER = Logger.getLogger(GestionRulesImpl.class);
 
 	@Override
 	public List<RuleError> lineSize(Integer size) {
@@ -22,7 +24,7 @@ public class GestionRulesImpl implements GestionRules {
 		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
 
-		System.out.println("Applying rule lineSize");
+		LOGGER.info("Applying rule lineSize");
 
 		// Iterate on file
 		LineIterator it = null;
@@ -51,7 +53,7 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> stringInstantiation() {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule stringInstantiation");
+		LOGGER.info("Applying rule stringInstantiation");
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
@@ -62,7 +64,7 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> constantUppercase(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule constantUppercase");
+		LOGGER.info("Applying rule constantUppercase");
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
@@ -74,7 +76,7 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule classNameFormat");
+		LOGGER.info("Applying rule classNameFormat");
 
 
 		return null;
@@ -83,28 +85,28 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> paramsFunction(CapitalizationStyle capitalizationStyle) {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule paramsFunction");
+		LOGGER.info("Applying rule paramsFunction");
 		return null;
 	}
 
 	@Override
 	public List<RuleError> checkNullInput() {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule checkNullInput");
+		LOGGER.info("Applying rule checkNullInput");
 		return null;
 	}
 
 	@Override
 	public List<RuleError> finalDeclarationMissing() {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule finalDeclarationMissing");
+		LOGGER.info("Applying rule finalDeclarationMissing");
 		return null;
 	}
 
 	@Override
 	public List<RuleError> nestedSpaces() {
 		// TODO Auto-generated method stub
-		System.out.println("Applying rule nestedSpaces");
+		LOGGER.info("Applying rule nestedSpaces");
 		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
 

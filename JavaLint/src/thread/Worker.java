@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import export.ExportHtml;
 import logic.GestionRulesImpl;
 import structure.RuleError;
@@ -20,7 +23,8 @@ public class Worker {
 	private GestionRulesImpl gestionRules = new GestionRulesImpl();
 	private Boolean shouldDisplayErrors = false;
 	private ConfigFile properties = null;
-	
+	private static final Logger LOGGER = Logger.getLogger(Worker.class);
+
 	public void work() {
 		loadAuthorization();
 		findFiles();
@@ -46,7 +50,7 @@ public class Worker {
 				currentFile.setLastModified(null);
 			}
 			
-			System.out.println("Le fichier de propriété a changé");
+			LOGGER.info("Le fichier de propriété a changé");
 		}
 	}
 	
@@ -75,7 +79,7 @@ public class Worker {
 
 				/* IMPORTANT, SETTING FILE WE ARE CURRENTLY WORKING ON */
 				FileTools.currentFileProcessing = currentFile;
-				System.out.println(currentFile.getFile().getAbsolutePath());
+				LOGGER.info("ANALYZING " + currentFile.getFile().getAbsolutePath());
 				for (Object key : properties.getRulesEnabled().keySet()) {
 					if ((boolean) properties.getRulesEnabled().get(key)) {
 						applyRules((Rule) key, currentFile);
@@ -104,7 +108,7 @@ public class Worker {
 			this.shouldDisplayErrors = false;
 			for (JavaFile currentFile : javaFiles) {
 				for (RuleError ruleError : currentFile.getRuleError()) {
-					System.out.println("File : " + OSUtils.extractFileNameFromPath(currentFile.getFile().getAbsolutePath())
+					LOGGER.info("RULE ERROR FOUND : " + OSUtils.extractFileNameFromPath(currentFile.getFile().getAbsolutePath())
 							+ " Rule : " + ruleError.getRuleError().getName() + " at Line (" + ruleError.getLine() + ","
 							+ ruleError.getColumn() + ")");
 				}
@@ -112,7 +116,7 @@ public class Worker {
 			// Export html
 			ExportHtml.generateHtmlLogError(javaFiles);
 		} else {
-			System.out.println("No modifications on " + ConfigReader.getProjectPropertyFolderPath() + System.lineSeparator());
+			LOGGER.info("No modifications on " + ConfigReader.getProjectPropertyFolderPath() + System.lineSeparator());
 		}
 	}
 
