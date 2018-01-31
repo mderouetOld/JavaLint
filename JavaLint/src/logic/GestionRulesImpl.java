@@ -16,6 +16,8 @@ public class GestionRulesImpl implements GestionRules {
 
 	@Override
 	public List<RuleError> lineSize(Integer size) {
+		LOGGER.info("APPLYING RULE lineSize");
+
 		// Default value of String max size
 		if (size == null) {
 			size = 140;
@@ -23,8 +25,6 @@ public class GestionRulesImpl implements GestionRules {
 
 		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
-
-		LOGGER.info("Applying rule lineSize");
 
 		// Iterate on file
 		LineIterator it = null;
@@ -52,8 +52,7 @@ public class GestionRulesImpl implements GestionRules {
 
 	@Override
 	public List<RuleError> stringInstantiation() {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule stringInstantiation");
+		LOGGER.info("APPLYING RULE stringInstantiation");
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
@@ -63,8 +62,7 @@ public class GestionRulesImpl implements GestionRules {
 
 	@Override
 	public List<RuleError> constantUppercase(CapitalizationStyle capitalizationStyle) {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule constantUppercase");
+		LOGGER.info("APPLYING RULE constantUppercase");
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
@@ -75,8 +73,7 @@ public class GestionRulesImpl implements GestionRules {
 
 	@Override
 	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle) {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule classNameFormat");
+		LOGGER.info("APPLYING RULE classNameFormat");
 
 
 		return null;
@@ -84,29 +81,26 @@ public class GestionRulesImpl implements GestionRules {
 
 	@Override
 	public List<RuleError> paramsFunction(CapitalizationStyle capitalizationStyle) {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule paramsFunction");
+		LOGGER.info("APPLYING RULE paramsFunction");
 		return null;
 	}
 
 	@Override
 	public List<RuleError> checkNullInput() {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule checkNullInput");
+		LOGGER.info("APPLYING RULE checkNullInput");
 		return null;
 	}
 
 	@Override
 	public List<RuleError> finalDeclarationMissing() {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule finalDeclarationMissing");
+		LOGGER.info("APPLYING RULE finalDeclarationMissing");
 		return null;
 	}
 
 	@Override
 	public List<RuleError> nestedSpaces() {
-		// TODO Auto-generated method stub
-		LOGGER.info("Applying rule nestedSpaces");
+		LOGGER.info("APPLYING RULE nestedSpaces");
+		
 		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
 

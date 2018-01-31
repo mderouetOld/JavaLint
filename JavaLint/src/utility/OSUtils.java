@@ -44,5 +44,11 @@ public class OSUtils {
 		}
 		return (path.substring(lastIndexSlash + 1, path.length()));
 	}
-
+	
+	public static String windowsToLinuxPath(String windowsPath) {
+		return windowsPath.replace("\\", "/");
+	}
+	public static String linuxToWindowsPath(String linuxPath) {
+		return linuxPath.replace("/", "\\");
+	}
 }

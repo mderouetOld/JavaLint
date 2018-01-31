@@ -50,7 +50,7 @@ public class Worker {
 				currentFile.setLastModified(null);
 			}
 			
-			LOGGER.info("Le fichier de propriété a changé");
+			LOGGER.warn("Le fichier de propriété a changé");
 		}
 	}
 	
