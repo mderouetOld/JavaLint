@@ -9,7 +9,7 @@
 
 |  Eclipse plugins |
 | ------------- |
-| Gradle     |
+| Gradle V4.3   |
 | Buildship Gradle Integration 2.0|
 | Minimalist Gradle Editor 1.0.1|
 | Egit|
