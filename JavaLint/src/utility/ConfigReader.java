@@ -6,6 +6,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
 import structure.Rule;
 
 public class ConfigReader {
@@ -15,7 +18,9 @@ public class ConfigReader {
 	private static InputStream input = null;
 	private static String filePropertyPath;
 	private final static String DEFAULT_PATH = "PATH";
-
+	private static boolean showLogPathNotSet = true;
+	private static Logger logger = Logger.getLogger(ConfigReader.class);
+	
 	
 	// Return the name of the property file which will be read to set up rules
 	public static String getConfigFilePath() {
@@ -70,12 +75,22 @@ public class ConfigReader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return prop.getProperty(DEFAULT_PATH);
+		return (prop.getProperty(DEFAULT_PATH).isEmpty())? getDefaultConfigPropertyPath() : prop.getProperty(DEFAULT_PATH);
 	}
-
+	
+	private static String getDefaultConfigPropertyPath() {
+		if(showLogPathNotSet) {
+			logger.warn("DEFAULT PATH NOT SET IN CONFIG.PROPERTIES");
+			showLogPathNotSet = false;
+		}
+		String path = System.getProperty("user.dir") + "\\tests\\dev\\";
+		if(OSUtils.isMac()) {
+			path = OSUtils.windowsToLinuxPath(path);
+		}
+		return path;
+	}
 	
 	private static Boolean readValueProp(String propertyName) {
 		return (prop.getProperty(propertyName).equals("true") ? true : false);
 	}
-
 }

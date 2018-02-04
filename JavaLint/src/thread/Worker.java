@@ -44,13 +44,12 @@ public class Worker {
 			// Update the date
 			properties.setLastModified(new Date(properties.getFile().getAbsoluteFile().lastModified()));
 			
-			
 			// Clear the list, properties has changed, we need to check again all files
 			for(JavaFile currentFile : javaFiles) {
 				currentFile.setLastModified(null);
 			}
 			
-			LOGGER.warn("Le fichier de propriété a changé");
+			LOGGER.warn("LE FICHIER DE PROPRIETE A CHANGE");
 		}
 	}
 	
@@ -116,7 +115,7 @@ public class Worker {
 			// Export html
 			ExportHtml.generateHtmlLogError(javaFiles);
 		} else {
-			LOGGER.info("No modifications on " + ConfigReader.getProjectPropertyFolderPath() + System.lineSeparator());
+			LOGGER.info("NO MODIFICATIONS IN " + ConfigReader.getProjectPropertyFolderPath() + System.lineSeparator());
 		}
 	}
 

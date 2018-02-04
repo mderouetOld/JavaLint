@@ -62,7 +62,7 @@ public class ExportHtml {
 			e.printStackTrace();
 		}
 
-		LOGGER.info("Logs updated in : " + pathLogs);
+		LOGGER.info("LOGS UPDATED IN : " + pathLogs);
 	}
 
 	private static void fillBodyContent() {
