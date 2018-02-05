@@ -3,6 +3,8 @@ package logic;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.log4j.Logger;
@@ -74,9 +76,42 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle) {
 		LOGGER.info("APPLYING RULE classNameFormat");
-
-
-		return null;
+		// Creating error array
+		List<RuleError> fileError = new ArrayList<RuleError>();
+		// Iterate on file
+		LineIterator it = null;
+		try {
+			it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
+			int index = 0;
+			String className = "";
+			while (it.hasNext()) {
+				index++;
+				String line = it.nextLine();
+					if(line.lastIndexOf("class") != -1) {
+						StringTokenizer newTokenizer = new StringTokenizer(line);
+						while(newTokenizer.hasMoreTokens()) {
+							if(newTokenizer.nextToken().equals("class")) {
+								className = newTokenizer.nextToken();
+								break;
+							}
+						}
+						if(!Character.isUpperCase(className.charAt(0))) {
+							fileError.add(new RuleError(Rule.CLASS_NAME_FORMAT, index, line.indexOf(className, 0), null, line));
+						}
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+		try {
+				it.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return fileError;
 	}
 
 	@Override
@@ -118,7 +153,12 @@ public class GestionRulesImpl implements GestionRules {
 						// Check whether we are out of bound (in order to check nested space)
 						if ((column+1 < line.length() && column > 1)) {
 							// Find if there is a nested space at the current location
-							if ((compareNestedSpace(line.charAt(column - 1)) || compareNestedSpace(line.charAt(column + 1)))) {
+							if (compareNestedSpace(line.charAt(column - 1)))  {
+								if(compareNestedSpace(line.charAt(column + 1))){
+									fileError.add(new RuleError(Rule.NESTED_SPACES, index, column, null, line));
+								}
+							}
+							if(line.charAt(column - 1) == ' ' || line.charAt(column + 1) == ' ' ){
 								fileError.add(new RuleError(Rule.NESTED_SPACES, index, column, null, line));
 							}
 						}
@@ -141,8 +181,10 @@ public class GestionRulesImpl implements GestionRules {
 		switch (c) {
 		case '(':
 		case ')':
-		case '<':
-		case '>':
+		case '{':
+		case '}':
+		case '[':
+		case ']':
 			return true;
 		}
 		return false;
