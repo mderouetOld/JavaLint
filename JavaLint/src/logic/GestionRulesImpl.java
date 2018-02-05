@@ -3,6 +3,8 @@ package logic;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.log4j.Logger;
@@ -74,9 +76,42 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> classNameFormat(CapitalizationStyle capitalizationStyle) {
 		LOGGER.info("APPLYING RULE classNameFormat");
-
-
-		return null;
+		// Creating error array
+		List<RuleError> fileError = new ArrayList<RuleError>();
+		// Iterate on file
+		LineIterator it = null;
+		try {
+			it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
+			int index = 0;
+			String className = "";
+			while (it.hasNext()) {
+				index++;
+				String line = it.nextLine();
+					if(line.lastIndexOf("class") != -1) {
+						StringTokenizer newTokenizer = new StringTokenizer(line);
+						while(newTokenizer.hasMoreTokens()) {
+							if(newTokenizer.nextToken().equals("class")) {
+								className = newTokenizer.nextToken();
+								break;
+							}
+						}
+						if(!Character.isUpperCase(className.charAt(0))) {
+							fileError.add(new RuleError(Rule.CLASS_NAME_FORMAT, index, line.indexOf(className, 0), null, line));
+						}
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+		try {
+				it.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return fileError;
 	}
 
 	@Override
@@ -109,9 +144,10 @@ public class GestionRulesImpl implements GestionRules {
 		try {
 			it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
 			int index = 0;
+			
 			while (it.hasNext()) {
 				index++;
-				String line = it.nextLine();
+				String line = it.nextLine(); 
 				for (int column = 0; column < line.length(); column++) {
 					// The char is empty
 					if (Character.isWhitespace(line.charAt(column))) {
