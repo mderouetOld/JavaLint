@@ -68,8 +68,66 @@ public class GestionRulesImpl implements GestionRules {
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
-
-
+		// Iterate on file
+		LineIterator it = null;
+		try {
+			it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
+			int index=0;
+			String constantName = "";
+			while(it.hasNext()) {
+				index++;
+				String line = it.nextLine();
+				if(line.lastIndexOf("static final") != -1) {
+					StringTokenizer newTokenizer = new StringTokenizer(line);
+					while(newTokenizer.hasMoreTokens()) {
+						if(newTokenizer.nextToken().equals("final")) {
+							constantName = newTokenizer.nextToken();						
+							break;
+						}
+					}					
+					constantName = newTokenizer.nextToken();
+					Character currentChar;
+					for (int i = 0; i < constantName.length(); i++) {
+						currentChar = constantName.charAt(i);
+						if(Character.isLowerCase(currentChar)) {
+							fileError.add(new RuleError(Rule.CONSTANT_UPPERCASE, index, line.indexOf(constantName, 0), null, line));
+							break;
+						}
+					}
+				}
+				if(line.lastIndexOf("final static") != -1) {
+					StringTokenizer newTokenizer = new StringTokenizer(line);
+					while(newTokenizer.hasMoreTokens()) {
+						if(newTokenizer.nextToken().equals("static")) {
+							constantName = newTokenizer.nextToken();						
+							break;
+						}
+					}					
+					constantName = newTokenizer.nextToken();
+					Character currentChar;
+					for (int i = 0; i < constantName.length(); i++) {
+						currentChar = constantName.charAt(i);
+						if(Character.isLowerCase(currentChar)) {
+							fileError.add(new RuleError(Rule.CONSTANT_UPPERCASE, index, line.indexOf(constantName, 0), null, line));
+							break;
+						}
+					}
+				}
+				
+			}
+		}		
+		catch (IOException e) {
+				e.printStackTrace();
+		}
+		finally {
+		try {
+				it.close();
+			} 
+		catch (IOException e) {
+				e.printStackTrace();
+			}
+		}	
+		
 		return fileError;
 	}
 
