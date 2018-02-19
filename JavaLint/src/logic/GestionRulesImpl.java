@@ -154,7 +154,12 @@ public class GestionRulesImpl implements GestionRules {
 						// Check whether we are out of bound (in order to check nested space)
 						if ((column+1 < line.length() && column > 1)) {
 							// Find if there is a nested space at the current location
-							if ((compareNestedSpace(line.charAt(column - 1)) || compareNestedSpace(line.charAt(column + 1)))) {
+							if (compareNestedSpace(line.charAt(column - 1)))  {
+								if(compareNestedSpace(line.charAt(column + 1))){
+									fileError.add(new RuleError(Rule.NESTED_SPACES, index, column, null, line));
+								}
+							}
+							if(line.charAt(column - 1) == ' ' || line.charAt(column + 1) == ' ' ){
 								fileError.add(new RuleError(Rule.NESTED_SPACES, index, column, null, line));
 							}
 						}
@@ -177,8 +182,10 @@ public class GestionRulesImpl implements GestionRules {
 		switch (c) {
 		case '(':
 		case ')':
-		case '<':
-		case '>':
+		case '{':
+		case '}':
+		case '[':
+		case ']':
 			return true;
 		}
 		return false;
