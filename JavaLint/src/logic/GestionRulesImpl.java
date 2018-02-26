@@ -19,15 +19,12 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> lineSize(Integer size) {
 		LOGGER.info("APPLYING RULE lineSize");
-
 		// Default value of String max size
 		if (size == null) {
 			size = 140;
 		}
-
 		// Creating error array
 		List<RuleError> fileError = new ArrayList<RuleError>();
-
 		// Iterate on file
 		LineIterator it = null;
 		try {
@@ -55,8 +52,7 @@ public class GestionRulesImpl implements GestionRules {
 	@Override
 	public List<RuleError> stringInstantiation() {
 		LOGGER.info("APPLYING RULE stringInstantiation");
-
-		/* EXAMPLE */
+		/* Liste des erreurs */
 		List<RuleError> fileError = new ArrayList<RuleError>();
 		// Iterate on file
 		LineIterator it = null;
@@ -89,16 +85,14 @@ public class GestionRulesImpl implements GestionRules {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			
+			}		
 		return fileError;
 	}
 
 	@Override
 	public List<RuleError> constantUppercase(CapitalizationStyle capitalizationStyle) {
 		LOGGER.info("APPLYING RULE constantUppercase");
-
-		/* EXAMPLE */
+		/* Liste des erreurs */
 		List<RuleError> fileError = new ArrayList<RuleError>();
 		// Iterate on file
 		LineIterator it = null;
@@ -158,8 +152,7 @@ public class GestionRulesImpl implements GestionRules {
 		catch (IOException e) {
 				e.printStackTrace();
 			}
-		}	
-		
+		}		
 		return fileError;
 	}
 
@@ -267,7 +260,6 @@ public class GestionRulesImpl implements GestionRules {
 		}
 		return fileError;
 	}
-
 	private boolean compareNestedSpace(Character c) {
 		switch (c) {
 		case '(':
