@@ -58,7 +58,39 @@ public class GestionRulesImpl implements GestionRules {
 
 		/* EXAMPLE */
 		List<RuleError> fileError = new ArrayList<RuleError>();
-
+		// Iterate on file
+		LineIterator it = null;
+			try {
+				it = FileUtils.lineIterator(FileTools.currentFileProcessing.getFile(), "UTF-8");
+				int index=0;				
+				while (it.hasNext()) {
+					index++;
+					String line = it.nextLine();
+					if (line.lastIndexOf("String") != -1) {
+						StringTokenizer newStringTokenizer= new StringTokenizer(line);
+						while(newStringTokenizer.hasMoreTokens()) {
+							String actualString = newStringTokenizer.nextToken();
+							if (actualString.equals("new") || actualString.contains("=new")) {
+								if (newStringTokenizer.nextToken().startsWith("String(")) {
+									fileError.add(new RuleError(Rule.STRING_INSTANTIATION, index, line.indexOf(actualString, 0), null, line));
+									break;
+								}
+							}
+						}
+					}
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally {
+			try {
+					it.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		return fileError;
 	}
 

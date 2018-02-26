@@ -1,10 +1,18 @@
 package utility;
 
-public class OSUtils {
+public class pSUtils {
 
+	public static final String TESt = "sjfn";
 	
-	private void maFonction( String a){
-		System.out.println("TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES");
+	String line= new String("my string");
+	private void maFonction(String a){
+		//System.out.println("TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES TROP DE CARACTERES");
 		Class.for
 	}
+	public void test(int x){
+		
+	}
+public class daouda{
+	
+}
 }
