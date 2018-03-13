@@ -1,10 +1,12 @@
 plugins {
   id "org.sonarqube" version "2.6.2"
 }
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'eclipse'
-archivesBaseName = 'jarName'
-version = '1.0-SNAPSHOT' 
+archivesBaseName = 'JavaLint'
+mainClassName = 'Main.java'
+version = '0.1-SNAPSHOT' 
 
 repositories {
     mavenCentral()
@@ -29,4 +31,6 @@ dependencies {
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
 	compile group: 'junit', name: 'junit', version: '4.12'
 	compile group: 'log4j', name: 'log4j', version: '1.2.16'
-} 
+}
+
+
